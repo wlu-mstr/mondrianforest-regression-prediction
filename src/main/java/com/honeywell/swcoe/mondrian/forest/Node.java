@@ -13,7 +13,8 @@ public class Node {
     private int left_child, right_child, feature = 0;
     private double threshold;
     private double tau, variance;
-    private double[] lower_bounds, upper_bounds;
+    //    private double[] lower_bounds, upper_bounds;
+    private List<Double> lowerbounds, upperbounds;
 
     public Node(Map<String, Object> map) {
         left_child = (Integer) (map.get("lc"));
@@ -22,13 +23,19 @@ public class Node {
         threshold = (Double) (map.get("th"));
         tau = handleInf(map.get("ta"));
         variance = (Double) (map.get("vr"));
-        List<Double> lowerbounds = (List<Double>) map.get("lb");
-        lower_bounds = new double[lowerbounds.size()];
-        for (int i = 0; i < lowerbounds.size(); i++) lower_bounds[i] = lowerbounds.get(i);
+        lowerbounds = (List<Double>) map.get("lb");
+        upperbounds = (List<Double>) map.get("ub");
+    }
 
-        List<Double> upperbounds = (List<Double>) map.get("ub");
-        upper_bounds = new double[upperbounds.size()];
-        for (int i = 0; i < upperbounds.size(); i++) upper_bounds[i] = upperbounds.get(i);
+    public Node(int aLeftChild, int aRightChild, int aFeature, double aThreshold, double aTau, double aVariance, List<Double> aLbounds, List<Double> aUbounds) {
+        left_child = aLeftChild;
+        right_child = aRightChild;
+        feature = aFeature;
+        threshold = aThreshold;
+        tau = aTau;
+        variance = aVariance;
+        lowerbounds = aLbounds;
+        upperbounds = aUbounds;
 
     }
 
@@ -36,7 +43,7 @@ public class Node {
         if (val instanceof String) {
             return 999999999D;
         } else {
-            return (Double)(val);
+            return (Double) (val);
         }
     }
 
@@ -66,11 +73,19 @@ public class Node {
     }
 
     public double getUpperBound(int idx) {
-        return upper_bounds[idx];
+        return upperbounds.get(idx);
+    }
+
+    public List<Double> getUpperBound() {
+        return upperbounds;
     }
 
     public double getLowerBound(int idx) {
-        return lower_bounds[idx];
+        return lowerbounds.get(idx);
+    }
+
+    public List<Double> getLowerBound() {
+        return lowerbounds;
     }
 
     @Override
@@ -82,8 +97,8 @@ public class Node {
                 ", threshold=" + threshold +
                 ", tau=" + tau +
                 ", variance=" + variance +
-                ", lower_bounds=" + lower_bounds +
-                ", upper_bounds=" + upper_bounds +
+                ", lower_bounds=" + lowerbounds +
+                ", upper_bounds=" + upperbounds +
                 '}' + "\n\t\t";
     }
 }

@@ -1,0 +1,25 @@
+syntax = "proto2";
+option java_package = "com.honeywell.swcoe.mondrian.forest.protobuf";
+option java_outer_classname = "Mondrian";
+
+message Node {
+    required int32 left_child = 1;
+    required int32 right_child = 2;
+    required int32 feature = 3;
+    required double threshold = 4;
+    required double tau = 5;
+    required double variance = 6;
+    repeated double lower_bounds = 7;
+    repeated double upper_bounds = 8;
+}
+
+
+message Tree {
+    repeated Node nodes = 1;
+    repeated double values = 2;
+    required int32 root = 3;
+}
+
+message Forest {
+    repeated Tree trees = 1;
+}

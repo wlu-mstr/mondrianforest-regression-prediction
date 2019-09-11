@@ -12,16 +12,29 @@ import java.util.List;
 
 public class Tree {
     private List<Node> nodes;
-    private double[] values;
+    private List<Double> values;
     private int root = 0;
 
     private static final int TREE_LEAF = -1;
 
-    public Tree(List<Node> aNodes, double[] aValues, int aRoot) {
+    public Tree(List<Node> aNodes, List<Double> aValues, int aRoot) {
         this.nodes = aNodes;
         this.values = aValues;
         this.root = aRoot;
     }
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public List<Double> getValues() {
+        return values;
+    }
+
+    public int getRoot() {
+        return root;
+    }
+
 
     public Result predict(double[] x) {
         // Step 3
@@ -39,10 +52,10 @@ public class Tree {
             // step 5: second part
             // calculate eta
             double eta = 0.0;
-            for (int xIdx =0; xIdx < x.length; xIdx++) {
+            for (int xIdx = 0; xIdx < x.length; xIdx++) {
                 double xVal = x[xIdx];
-                double diffUpper  = Math.max(xVal - node.getUpperBound(xIdx), 0);
-                double diffLower  = Math.max(node.getLowerBound(xIdx) - xVal, 0);
+                double diffUpper = Math.max(xVal - node.getUpperBound(xIdx), 0);
+                double diffLower = Math.max(node.getLowerBound(xIdx) - xVal, 0);
                 eta += diffLower + diffUpper;
             }
             // Step 6: Calculate p_j
@@ -54,8 +67,8 @@ public class Tree {
                 wj = pNsy * pjs;
             }
 
-            mean += wj * this.values[nodeId];
-            std  += wj * ( this.values[nodeId] * this.values[nodeId] + node.getVariance());
+            mean += wj * this.values.get(nodeId);
+            std += wj * (this.values.get(nodeId) * this.values.get(nodeId) + node.getVariance());
 
             if (node.getLeft_child() == TREE_LEAF) {
                 break;
@@ -84,7 +97,7 @@ public class Tree {
     public String toString() {
         return "Tree{" +
                 "nodes=" + nodes +
-                ", values=" + Arrays.toString(values) +
+                ", values=" + values +
                 ", root=" + root +
                 '}' + "\n\t";
     }
