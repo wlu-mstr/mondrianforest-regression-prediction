@@ -26,7 +26,7 @@ public class ForestPredictTest {
 
     @Test
     public void predictForest2() throws IOException {
-        FileReader reader = new FileReader("/home/wlu/work/git/gas-ml/gas-model/wrapper2/ben_r2_0828.mdr.json");
+        FileReader reader = new FileReader("/home/wlu/work/git/gas-ml/gas-model/wrapper2/ben_r2_0828_2.mdr.json");
         BufferedReader br = new BufferedReader(reader);
         String line = br.readLine();
         JSONArray json = new JSONArray(line);
